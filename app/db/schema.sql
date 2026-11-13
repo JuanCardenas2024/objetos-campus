@@ -4,7 +4,8 @@ USE objetos_campus;
 
 CREATE TABLE IF NOT EXISTS sedes (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  nombre VARCHAR(100) NOT NULL UNIQUE
+  nombre VARCHAR(100) NOT NULL UNIQUE,
+  departamento VARCHAR(100) NULL
 );
 
 CREATE TABLE IF NOT EXISTS usuarios (
@@ -26,6 +27,3 @@ CREATE TABLE IF NOT EXISTS administradores (
   password_hash VARCHAR(255) NOT NULL,
   creado_en TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
-
-INSERT IGNORE INTO sedes (nombre) VALUES
-  ('Sede Principal'), ('Sede Norte'), ('Sede Sur');

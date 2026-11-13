@@ -1,0 +1,34 @@
+services:
+  mariadb:
+    image: mariadb:11
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD:-root123}
+      MARIADB_DATABASE: objetos_campus
+      MARIADB_USER: ${MARIADB_USER}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+    volumes:
+      - mariadb_data:/var/lib/mysql
+      - ./app/db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql:ro
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  app:
+    build: .
+    env_file: .env
+    environment:
+      MARIADB_HOST: mariadb
+      MARIADB_PORT: 3306
+      DATALAKE_PATH: /app/datalake_local
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./datalake_local:/app/datalake_local
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+volumes:
+  mariadb_data:
