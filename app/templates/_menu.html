@@ -1,0 +1,7 @@
+<nav class="nav flex-column">
+  <a class="nav-link {% if seccion == 'encontrados' %}active{% endif %}" href="/admin/encontrados">Objetos encontrados</a>
+  <a class="nav-link {% if seccion == 'perdidos' %}active{% endif %}" href="/admin/perdidos">Objetos perdidos</a>
+  <a class="nav-link {% if seccion == 'reclamados' %}active{% endif %}" href="/admin/reclamados">Objetos reclamados</a>
+  <hr class="border-light opacity-25">
+  <a class="nav-link salir" href="/logout">Cerrar sesión</a>
+</nav>

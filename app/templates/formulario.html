@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+{% set es_hallazgo = tipo == 'hallazgo' %}
+{% block titulo %}{% if es_hallazgo %}Reportar objeto encontrado{% else %}Reportar objeto perdido{% endif %} · UNIMINUTO{% endblock %}
+
+{% block contenido %}
+<div class="container py-4" style="max-width: 760px;">
+  <h1 class="h4 titulo-seccion mb-4">
+    {% if es_hallazgo %}Reportar objeto encontrado{% else %}Reportar objeto perdido{% endif %}
+  </h1>
+
+  {% if exito %}
+  <div class="alert alert-success">Reporte guardado. Código: {{ exito }}</div>
+  {% endif %}
+
+  {% if errores %}
+  <div class="alert alert-danger">
+    <ul class="mb-0">{% for e in errores %}<li>{{ e }}</li>{% endfor %}</ul>
+  </div>
+  {% endif %}
+
+  <form method="post" action="/reportes/{{ tipo }}" enctype="multipart/form-data" class="card card-uni card-body p-4">
+    <div class="row g-3">
+
+      <div class="col-12 col-md-6">
+        <label class="form-label">Rol</label>
+        <select name="rol" id="rol" class="form-select" required>
+          <option value="">Seleccione...</option>
+          <option value="docente">Docente</option>
+          <option value="estudiante">Estudiante</option>
+          <option value="personal">Personal universitario</option>
+        </select>
+      </div>
+
+      <div class="col-12 col-md-6" id="bloque-cargo" hidden>
+        <label class="form-label">Cargo</label>
+        <input type="text" name="cargo_personal" id="cargo" class="form-control">
+      </div>
+
+      <div class="col-12">
+        <label class="form-label">Nombre completo</label>
+        <input type="text" name="nombre_completo" class="form-control" required>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label class="form-label">Correo institucional</label>
+        <input type="email" name="correo_institucional" class="form-control" required>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label class="form-label">ID</label>
+        <input type="text" name="identificacion" class="form-control" required>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label class="form-label">Teléfono</label>
+        <input type="tel" name="telefono" class="form-control" required>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label class="form-label">Sede</label>
+        <select name="sede" class="form-select" required>
+          <option value="">Seleccione la sede...</option>
+          {% for departamento, items in sedes|groupby('departamento') %}
+          <optgroup label="{{ departamento or 'Otras' }}">
+            {% for s in items %}
+            <option value="{{ s.nombre }}">{{ s.nombre }}</option>
+            {% endfor %}
+          </optgroup>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label">Objeto</label>
+        <input type="text" name="objeto" class="form-control" required>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label">
+          {% if es_hallazgo %}Descripción y lugar donde lo encontró{% else %}Descripción y último lugar donde lo vio{% endif %}
+        </label>
+        <textarea name="descripcion" rows="3" class="form-control" required></textarea>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label class="form-label">
+          {% if es_hallazgo %}Fecha en que lo encontró{% else %}Fecha en que lo perdió{% endif %}
+        </label>
+        <input type="date" name="fecha" class="form-control" required>
+      </div>
+
+      <div class="col-12 col-md-6">
+        <label class="form-label">Hora {% if not es_hallazgo %}(opcional){% endif %}</label>
+        <input type="time" name="hora" class="form-control" {% if es_hallazgo %}required{% endif %}>
+      </div>
+
+      <div class="col-12">
+        <label class="form-label">Foto del objeto {% if not es_hallazgo %}(opcional){% endif %}</label>
+        <input type="file" name="foto" accept="image/*" capture="environment"
+               class="form-control" {% if es_hallazgo %}required{% endif %}>
+      </div>
+
+      <div class="col-12 d-grid mt-2">
+        <button type="submit" class="btn btn-uni btn-lg">Enviar reporte</button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const rol = document.getElementById('rol');
+  const bloque = document.getElementById('bloque-cargo');
+  const cargo = document.getElementById('cargo');
+
+  function actualizarCargo() {
+    const esPersonal = rol.value === 'personal';
+    bloque.hidden = !esPersonal;
+    cargo.required = esPersonal;
+  }
+
+  rol.addEventListener('change', actualizarCargo);
+  actualizarCargo();
+</script>
+{% endblock %}

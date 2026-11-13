@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block titulo %}Ingreso · UNIMINUTO{% endblock %}
+
+{% block contenido %}
+<section class="login-hero">
+  <div class="card card-uni login-card">
+    <div class="card-body p-4 p-md-5">
+      <h1 class="h4 fw-bold text-center mb-1" style="color: var(--uni-azul);">Bienvenido</h1>
+      <p class="text-center text-muted small mb-4">Sistema de objetos perdidos del campus</p>
+
+      {% if error %}
+      <div class="alert alert-danger">{{ error }}</div>
+      {% endif %}
+
+      <form method="post" action="/login">
+        <div class="mb-3">
+          <label class="form-label">¿Quién es usted?</label>
+          <select name="rol" id="rol" class="form-select" required>
+            <option value="">Seleccione...</option>
+            <option value="admin">Administrador</option>
+            <option value="encontro">Persona que encontró un objeto</option>
+            <option value="perdio">Persona que perdió un objeto</option>
+          </select>
+        </div>
+
+        <div id="bloque-admin" hidden>
+          <div class="mb-3">
+            <label class="form-label">Usuario</label>
+            <input type="text" name="usuario" id="usuario" class="form-control">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Contraseña</label>
+            <input type="password" name="password" id="password" class="form-control">
+          </div>
+        </div>
+
+        <div class="d-grid">
+          <button type="submit" class="btn btn-uni btn-lg">Ingresar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const rol = document.getElementById('rol');
+  const bloque = document.getElementById('bloque-admin');
+  const usuario = document.getElementById('usuario');
+  const password = document.getElementById('password');
+
+  function actualizarCampos() {
+    const esAdmin = rol.value === 'admin';
+    bloque.hidden = !esAdmin;
+    usuario.required = esAdmin;
+    password.required = esAdmin;
+  }
+
+  rol.addEventListener('change', actualizarCampos);
+  actualizarCampos();
+</script>
+{% endblock %}

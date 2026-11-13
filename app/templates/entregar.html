@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block titulo %}{{ titulo }} · UNIMINUTO{% endblock %}
+
+{% block acciones_header %}
+<a href="/admin/encontrados" class="btn btn-uni btn-sm">Volver</a>
+{% endblock %}
+
+{% block contenido %}
+<div class="container py-4" style="max-width: 720px;">
+  <h1 class="h4 titulo-seccion mb-4">{{ titulo }}</h1>
+
+  {% if errores %}
+  <div class="alert alert-danger">
+    <ul class="mb-0">{% for e in errores %}<li>{{ e }}</li>{% endfor %}</ul>
+  </div>
+  {% endif %}
+
+  <div class="card card-uni mb-4">
+    <div class="card-body d-flex gap-3 align-items-start">
+      {% if reporte.foto_url %}
+      <img src="/admin/foto/{{ reporte.foto_url }}" alt="Foto del reporte" class="foto-miniatura">
+      {% endif %}
+      <div>
+        <h2 class="h6 fw-bold mb-1">{{ reporte.objeto }}</h2>
+        <p class="small mb-1">{{ reporte.descripcion }}</p>
+        <p class="small text-muted mb-0">{{ reporte.sede }} · {{ reporte.fecha.strftime('%d/%m/%Y') }}</p>
+      </div>
+    </div>
+  </div>
+
+  <form method="post" action="{{ accion }}" enctype="multipart/form-data" class="card card-uni card-body p-4">
+    <div class="row g-3">
+      <div class="col-12">
+        <label class="form-label">Nombre de quien recibe</label>
+        <input type="text" name="nombre_receptor" class="form-control" required
+               value="{{ reclamo.nombre_receptor or '' }}">
+      </div>
+      <div class="col-12">
+        <label class="form-label">Correo de quien recibe</label>
+        <input type="email" name="correo_receptor" class="form-control" required
+               value="{{ reclamo.correo_receptor or '' }}">
+      </div>
+      <div class="col-12">
+        <label class="form-label">Foto del objeto al entregarlo (opcional)</label>
+        <input type="file" name="foto_entrega" accept="image/*" capture="environment" class="form-control">
+        <div class="form-text">
+          {% if reclamo %}Si no sube una foto nueva, se conserva la actual.
+          {% else %}Si no sube una foto, se usará la foto del reporte.{% endif %}
+        </div>
+      </div>
+      <div class="col-12 d-grid mt-2">
+        <button type="submit" class="btn btn-uni btn-lg">Guardar</button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

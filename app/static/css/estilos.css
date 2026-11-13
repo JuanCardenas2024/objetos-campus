@@ -1,0 +1,151 @@
+:root {
+  --uni-azul: #0b2d6b;
+  --uni-azul-medio: #1748a0;
+  --uni-azul-claro: #e8eefa;
+  --uni-amarillo: #f7b500;
+  --uni-amarillo-oscuro: #d99c00;
+  --uni-blanco: #ffffff;
+  --uni-negro: #111111;
+  --uni-gris: #f4f6fa;
+}
+
+body {
+  background: var(--uni-gris);
+  color: var(--uni-negro);
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main { flex: 1; }
+
+/* Encabezado */
+.site-header {
+  background: linear-gradient(120deg, var(--uni-azul), var(--uni-azul-medio));
+  border-bottom: 6px solid var(--uni-amarillo);
+  color: var(--uni-blanco);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, .25);
+}
+.logo { height: 52px; width: auto; }
+.brand-title { font-weight: 700; font-size: 1.1rem; }
+.brand-sub {
+  font-size: .75rem;
+  color: var(--uni-amarillo);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Pie de página */
+.site-footer {
+  background: var(--uni-negro);
+  color: var(--uni-amarillo);
+  padding: 14px 0;
+  margin-top: 2rem;
+  border-top: 4px solid var(--uni-amarillo);
+}
+
+/* Botones */
+.btn-uni {
+  background: var(--uni-amarillo);
+  color: var(--uni-negro);
+  border: 2px solid var(--uni-negro);
+  font-weight: 700;
+  border-radius: 10px;
+}
+.btn-uni:hover, .btn-uni:focus {
+  background: var(--uni-amarillo-oscuro);
+  color: var(--uni-negro);
+}
+.btn-uni-azul {
+  background: var(--uni-azul);
+  color: var(--uni-blanco);
+  border: 0;
+  font-weight: 600;
+  border-radius: 10px;
+}
+.btn-uni-azul:hover { background: var(--uni-azul-medio); color: var(--uni-blanco); }
+
+/* Tarjetas y títulos */
+.card-uni {
+  background: var(--uni-blanco);
+  border: 0;
+  border-top: 5px solid var(--uni-amarillo);
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(11, 45, 107, .12);
+}
+.card-uni .card-footer {
+  background: var(--uni-azul-claro);
+  border-top: 1px solid #d5e0f3;
+  border-radius: 0 0 14px 14px;
+}
+.titulo-seccion {
+  font-weight: 800;
+  color: var(--uni-azul);
+  border-left: 6px solid var(--uni-amarillo);
+  padding-left: .6rem;
+}
+.contador {
+  background: var(--uni-negro);
+  color: var(--uni-amarillo);
+  font-size: .85rem;
+}
+.foto-miniatura {
+  width: 96px;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 12px;
+  border: 3px solid var(--uni-negro);
+  flex-shrink: 0;
+}
+
+/* Formularios */
+.form-label { font-weight: 600; color: var(--uni-azul); }
+.form-control:focus, .form-select:focus {
+  border-color: var(--uni-azul-medio);
+  box-shadow: 0 0 0 .2rem rgba(247, 181, 0, .35);
+}
+
+/* Estados */
+.badge-estado-pendiente {
+  background: var(--uni-amarillo);
+  color: var(--uni-negro);
+  border: 1px solid var(--uni-negro);
+}
+.badge-estado-reclamado {
+  background: var(--uni-azul);
+  color: var(--uni-blanco);
+}
+
+/* Ingreso */
+.login-hero {
+  min-height: calc(100vh - 170px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top, var(--uni-azul-medio), var(--uni-azul) 70%);
+  padding: 2rem 1rem;
+}
+.login-card { width: 100%; max-width: 440px; }
+
+/* Menú lateral */
+.sidebar { background: var(--uni-azul); }
+.sidebar .nav-link {
+  color: #dfe8ff;
+  border-radius: 10px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.sidebar .nav-link:hover { background: var(--uni-azul-medio); color: var(--uni-blanco); }
+.sidebar .nav-link.active {
+  background: var(--uni-amarillo);
+  color: var(--uni-negro);
+}
+.sidebar .nav-link.salir { color: #ffb4b4; }
+.sidebar .offcanvas-title { color: var(--uni-blanco); }
+.sidebar .btn-close { filter: invert(1); }
+
+@media (max-width: 575.98px) {
+  .logo { height: 40px; }
+  .foto-miniatura { width: 72px; height: 72px; }
+}
